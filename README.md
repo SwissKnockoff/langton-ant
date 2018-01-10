@@ -1,2 +1,2 @@
 # langton-ant
-A simulation of Langton's Ant made with p5.js in JavaScript
+Langton's Ant Simulation created using p5.js
