@@ -3,8 +3,11 @@ var GRID_LEN;
 var s;
 var squareSize;
 var ant;
+var running;
 
 function setup() {
+
+    running = false;
 
     s = 660;
     GRID_LEN = 20;
@@ -12,7 +15,9 @@ function setup() {
 
     ant = new Ant(7, 7);
 
-    createCanvas(s + 1, s + 1);
+    var canvas = createCanvas(s + 1, s + 1);
+    canvas.parent("canvas");
+
     frameRate(5);
     for(var i = 0; i < squareSize; i++) {
 
@@ -42,16 +47,43 @@ function draw() {
 
     ant.draw();
 
-    //Current square is black
-    if (grid[ant.x][ant.y])
-        ant.turnLeft();
+    if(running) {
 
-    //Current square is white
+        //Current square is black
+        if (grid[ant.x][ant.y])
+            ant.turnLeft();
+
+        //Current square is white
+        else
+            ant.turnRight();
+
+        grid[ant.x][ant.y] = !grid[ant.x][ant.y];
+        ant.move();
+
+    }
+
+}
+
+function mousePressed() {
+
+    x = Math.floor(mouseX / squareSize);
+    y = Math.floor(mouseY / squareSize);
+
+    console.log(mouseX + ", " + mouseY);
+
+    grid[x][y] = !grid[x][y];
+
+}
+
+function startStop() {
+
+    running = !running;
+    
+    if(running)
+        document.getElementById("startstop").innerText = "Stop";
     else
-        ant.turnRight();
+        document.getElementById("startstop").innerText = "Start";
 
-    grid[ant.x][ant.y] = !grid[ant.x][ant.y];
-    ant.move();
 
 }
 
@@ -85,10 +117,10 @@ function Ant(x, y) {
 
         switch(this.dir) {
 
-            case 0: this.y--; console.log("NORTH"); break;
-            case 1: this.x++; console.log("WEST"); break;
-            case 2: this.y++; console.log("SOUTH"); break;
-            default: this.x--; console.log("EAST"); break;
+            case 0: this.y--; break;
+            case 1: this.x++; break;
+            case 2: this.y++; break;
+            default: this.x--; break;
 
         }
 
